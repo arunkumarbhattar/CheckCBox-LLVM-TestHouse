@@ -39,26 +39,27 @@ unsigned int ulval;
 _TPtr<_TPtr<NHDD>> complexdoublepointer;
 }HDD;
 
-typedef Tstruct Spl_ExtremelyNestedHeader{
+typedef _Decoy Tstruct Spl_ExtremelyNestedHeader{
         float coke_float;
         unsigned int favoriteCar;
 }Spl_ENHDD;
 
 Spl_ENHDD Spl_ExtremelyNestedHeader_var;
 
-typedef Tstruct Spl_SuperNestedHeader{
+typedef _Decoy Tstruct Spl_SuperNestedHeader{
         unsigned int brother_name;
-        int arun;
+        unsigned int arun;
         char c_p;
         float twin;
 }Spl_SNHDD;
 
+
 Spl_SNHDD Spl_SuperNestedHeader_var;
 
-typedef Tstruct Spl_nestedHeader{
+typedef _Decoy Tstruct Spl_nestedHeader{
         unsigned int name;
         unsigned int super_nested;
-        int arun;
+        unsigned int arun;
         char c_p;
         float twin;
 
@@ -66,8 +67,8 @@ typedef Tstruct Spl_nestedHeader{
 
 Spl_NHDD Spl_nestedHeader_var;
 
-typedef Tstruct Spl_Header{
-        int car;
+typedef _Decoy Tstruct Spl_Header{
+        unsigned int car;
         unsigned int twin_turbo;
         unsigned int name;
         unsigned int nested;
@@ -113,12 +114,10 @@ _TLIB
 _TLIB
  int main(void)
 {
-
 _TPtr<HDD> c_2 =  experiment_1();
-
     c_2 =  experiment_2(c_2);
-    t_printf("Val from c_2->twin_turbo = %d\n", *(c_2->twin_turbo));
-    t_printf("Val from c_2->name  = %s\n", (c_2->name));
+   t_printf("Val from c_2->twin_turbo = %d\n", *(c_2->twin_turbo));
+      t_printf("Val from c_2->name  = %s\n", (c_2->name));
     t_printf("Val from c_2->nested->name  = %s\n", (c_2->nested->name));
     t_printf("Val from c_2->ulval  = %u\n", (c_2->ulval));
     t_printf("Val from c_2->complexdoublepointer[0]->name  = %s\n", (c_2->complexdoublepointer[0]->name));
@@ -133,6 +132,7 @@ _TPtr<HDD> c_2 =  experiment_1();
     t_printf("Val from c_2->ED.favoriteCar  = %s\n", (c_2->ED.favoriteCar));
     t_printf("Val from c_2->simpledoublepointer[0]  = %s\n", (c_2->simpledoublepointer[0]));
     t_printf("Val from c_2->simpledoublepointer[1]  = %s\n", (c_2->simpledoublepointer[1]));
+
 
     t_printf("Val from c_2->simpledoublepointer[2]  = %s\n", (c_2->simpledoublepointer[2]));
 
