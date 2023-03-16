@@ -1,10 +1,9 @@
-//#include <stdlib_tainted.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib_tainted.h>
-extern void w2c_BasicSbxCallThatJustReturns();
-
+#include <checkcbox_extensions.h>
+#include "access.h"
 
 double ReadingAndWritingToCheckedPtr100ktimes()
 {
@@ -28,7 +27,11 @@ double ReadingAndWritingToTaintedPtr100ktimes()
     clock_t start, end;
     double cpu_time_used;
     start = clock();
+#ifdef wasmsbx
     _TPtr<int> pVal = (_TPtr<int>)t_malloc(sizeof(int));
+#elif hoardsbx
+    _TPtr<int> pVal = (_TPtr<int>)hoard_malloc(sizeof(int));
+#endif
     *pVal = 0;
     for (int i = 0; i < 100000; i++)
     {
