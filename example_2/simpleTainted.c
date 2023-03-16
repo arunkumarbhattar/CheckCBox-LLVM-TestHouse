@@ -82,7 +82,8 @@ typedef _Decoy Tstruct Spl_Header{
 } Spl_HDD;
 
 Spl_HDD Spl_Header_var;
-
+_TLIB unsigned int w2c_experiment_1(void*);
+_TLIB  unsigned int w2c_experiment_2(void*, unsigned int);
 _TLIB
         Spl_HDD dummy_1(void){
     return Spl_Header_var;
@@ -109,11 +110,12 @@ _TLIB
 
 _TLIB
         _TPtr<HDD> experiment_2(_TPtr<HDD> hdd_val){
-    return (_TPtr<HDD>)w2c_experiment_2(c_fetch_sandbox_address(), hdd_val);
+    return (_TPtr<HDD>)w2c_experiment_2(c_fetch_sandbox_address(), (int)hdd_val);
 }
-_TLIB
+
  int main(void)
 {
+    _TPtr<char> taintedPtr  = NULL;//(_TPtr<char>)t_malloc<char>(10*sizeof(char));
 _TPtr<HDD> c_2 =  experiment_1();
     c_2 =  experiment_2(c_2);
    t_printf("Val from c_2->twin_turbo = %d\n", *(c_2->twin_turbo));

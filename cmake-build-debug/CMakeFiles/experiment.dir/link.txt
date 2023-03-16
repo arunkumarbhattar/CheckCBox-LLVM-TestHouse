@@ -1,1 +1,1 @@
-/home/twinturbo/Desktop/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang -g -ldl -lstdc++ CMakeFiles/experiment.dir/experiment/simpleTainted.c.o -o experiment  ../static_lib/libSBX_CON_LIB.a ../static_lib/libisc_lib_final.a -ldl 
+/home/arun/Desktop/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang -g -ldl -lstdc++ CMakeFiles/experiment.dir/experiment/simpleTainted.c.o -o experiment  ../static_lib/libSBX_CON_LIB.a ../static_lib/libisc_lib_final.a -ldl 

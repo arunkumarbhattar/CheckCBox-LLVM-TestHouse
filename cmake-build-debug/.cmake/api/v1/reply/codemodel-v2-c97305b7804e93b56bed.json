@@ -1,0 +1,114 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "llvm-test-house",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "access::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-access-Debug-33a66ae5446cdf790a5a.json",
+					"name" : "access",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "example_2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-example_2-Debug-478b4ea6e88892d9e991.json",
+					"name" : "example_2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "experiment::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-experiment-Debug-02e1e2cbc6b73bb7cf7d.json",
+					"name" : "experiment",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "hard::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-hard-Debug-54df05ccf5e7f91c8c3d.json",
+					"name" : "hard",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sbxcall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sbxcall-Debug-01c0d630ff5300b45316.json",
+					"name" : "sbxcall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "simple::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-simple-Debug-05e581d437c90c4dd5b2.json",
+					"name" : "simple",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tptr::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tptr-Debug-d78dd8904968c7510eab.json",
+					"name" : "tptr",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/arun/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug",
+		"source" : "/home/arun/Desktop/CheckCBox-LLVM-TestHouse"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

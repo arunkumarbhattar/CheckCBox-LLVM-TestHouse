@@ -48,19 +48,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/206/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/209/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/206/bin/cmake/linux/bin/cmake -E rm -f
+RM = /snap/clion/209/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse
+CMAKE_SOURCE_DIR = /home/arun/Desktop/CheckCBox-LLVM-TestHouse
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug
+CMAKE_BINARY_DIR = /home/arun/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/206/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/snap/clion/209/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -78,7 +78,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/clion/206/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/clion/209/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug/CMakeFiles /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arun/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug/CMakeFiles /home/arun/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arun/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -167,6 +167,117 @@ experiment: cmake_check_build_system
 experiment/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/experiment.dir/build.make CMakeFiles/experiment.dir/build
 .PHONY : experiment/fast
+
+#=============================================================================
+# Target rules for targets named access
+
+# Build rule for target.
+access: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 access
+.PHONY : access
+
+# fast build rule for target.
+access/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/access.dir/build.make CMakeFiles/access.dir/build
+.PHONY : access/fast
+
+#=============================================================================
+# Target rules for targets named sbxcall
+
+# Build rule for target.
+sbxcall: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sbxcall
+.PHONY : sbxcall
+
+# fast build rule for target.
+sbxcall/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sbxcall.dir/build.make CMakeFiles/sbxcall.dir/build
+.PHONY : sbxcall/fast
+
+#=============================================================================
+# Target rules for targets named tptr
+
+# Build rule for target.
+tptr: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tptr
+.PHONY : tptr
+
+# fast build rule for target.
+tptr/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tptr.dir/build.make CMakeFiles/tptr.dir/build
+.PHONY : tptr/fast
+
+MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.o: MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.o
+.PHONY : MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.o
+
+# target to build an object file
+MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tptr.dir/build.make CMakeFiles/tptr.dir/MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.o
+.PHONY : MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.o
+
+MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.i: MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.i
+.PHONY : MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.i
+
+# target to preprocess a source file
+MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tptr.dir/build.make CMakeFiles/tptr.dir/MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.i
+.PHONY : MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.i
+
+MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.s: MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.s
+.PHONY : MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.s
+
+# target to generate assembly for a file
+MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tptr.dir/build.make CMakeFiles/tptr.dir/MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.s
+.PHONY : MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.c.s
+
+MicroBenchmarking/MemoryAccessTime/access.o: MicroBenchmarking/MemoryAccessTime/access.c.o
+.PHONY : MicroBenchmarking/MemoryAccessTime/access.o
+
+# target to build an object file
+MicroBenchmarking/MemoryAccessTime/access.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/access.dir/build.make CMakeFiles/access.dir/MicroBenchmarking/MemoryAccessTime/access.c.o
+.PHONY : MicroBenchmarking/MemoryAccessTime/access.c.o
+
+MicroBenchmarking/MemoryAccessTime/access.i: MicroBenchmarking/MemoryAccessTime/access.c.i
+.PHONY : MicroBenchmarking/MemoryAccessTime/access.i
+
+# target to preprocess a source file
+MicroBenchmarking/MemoryAccessTime/access.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/access.dir/build.make CMakeFiles/access.dir/MicroBenchmarking/MemoryAccessTime/access.c.i
+.PHONY : MicroBenchmarking/MemoryAccessTime/access.c.i
+
+MicroBenchmarking/MemoryAccessTime/access.s: MicroBenchmarking/MemoryAccessTime/access.c.s
+.PHONY : MicroBenchmarking/MemoryAccessTime/access.s
+
+# target to generate assembly for a file
+MicroBenchmarking/MemoryAccessTime/access.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/access.dir/build.make CMakeFiles/access.dir/MicroBenchmarking/MemoryAccessTime/access.c.s
+.PHONY : MicroBenchmarking/MemoryAccessTime/access.c.s
+
+MicroBenchmarking/SandboxCallToReturnTime/access.o: MicroBenchmarking/SandboxCallToReturnTime/access.c.o
+.PHONY : MicroBenchmarking/SandboxCallToReturnTime/access.o
+
+# target to build an object file
+MicroBenchmarking/SandboxCallToReturnTime/access.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sbxcall.dir/build.make CMakeFiles/sbxcall.dir/MicroBenchmarking/SandboxCallToReturnTime/access.c.o
+.PHONY : MicroBenchmarking/SandboxCallToReturnTime/access.c.o
+
+MicroBenchmarking/SandboxCallToReturnTime/access.i: MicroBenchmarking/SandboxCallToReturnTime/access.c.i
+.PHONY : MicroBenchmarking/SandboxCallToReturnTime/access.i
+
+# target to preprocess a source file
+MicroBenchmarking/SandboxCallToReturnTime/access.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sbxcall.dir/build.make CMakeFiles/sbxcall.dir/MicroBenchmarking/SandboxCallToReturnTime/access.c.i
+.PHONY : MicroBenchmarking/SandboxCallToReturnTime/access.c.i
+
+MicroBenchmarking/SandboxCallToReturnTime/access.s: MicroBenchmarking/SandboxCallToReturnTime/access.c.s
+.PHONY : MicroBenchmarking/SandboxCallToReturnTime/access.s
+
+# target to generate assembly for a file
+MicroBenchmarking/SandboxCallToReturnTime/access.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sbxcall.dir/build.make CMakeFiles/sbxcall.dir/MicroBenchmarking/SandboxCallToReturnTime/access.c.s
+.PHONY : MicroBenchmarking/SandboxCallToReturnTime/access.c.s
 
 example_2/simpleTainted.o: example_2/simpleTainted.c.o
 .PHONY : example_2/simpleTainted.o
@@ -272,10 +383,22 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... access"
 	@echo "... example_2"
 	@echo "... experiment"
 	@echo "... hard"
+	@echo "... sbxcall"
 	@echo "... simple"
+	@echo "... tptr"
+	@echo "... MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.o"
+	@echo "... MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.i"
+	@echo "... MicroBenchmarking/AccessingTaintedDataInCheckedRegion/access.s"
+	@echo "... MicroBenchmarking/MemoryAccessTime/access.o"
+	@echo "... MicroBenchmarking/MemoryAccessTime/access.i"
+	@echo "... MicroBenchmarking/MemoryAccessTime/access.s"
+	@echo "... MicroBenchmarking/SandboxCallToReturnTime/access.o"
+	@echo "... MicroBenchmarking/SandboxCallToReturnTime/access.i"
+	@echo "... MicroBenchmarking/SandboxCallToReturnTime/access.s"
 	@echo "... example_2/simpleTainted.o"
 	@echo "... example_2/simpleTainted.i"
 	@echo "... example_2/simpleTainted.s"

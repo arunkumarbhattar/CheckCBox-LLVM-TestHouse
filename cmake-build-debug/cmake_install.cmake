@@ -1,4 +1,4 @@
-# Install script for directory: /home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse
+# Install script for directory: /home/arun/Desktop/CheckCBox-LLVM-TestHouse
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/arun/Desktop/CheckCBox-LLVM-TestHouse/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

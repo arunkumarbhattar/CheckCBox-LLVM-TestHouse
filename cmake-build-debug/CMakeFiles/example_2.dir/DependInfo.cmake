@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/twinturbo/Desktop/CheckCBox-LLVM-TestHouse/example_2/simpleTainted.c" "CMakeFiles/example_2.dir/example_2/simpleTainted.c.o" "gcc" "CMakeFiles/example_2.dir/example_2/simpleTainted.c.o.d"
+  "/home/arun/Desktop/CheckCBox-LLVM-TestHouse/example_2/simpleTainted.c" "CMakeFiles/example_2.dir/example_2/simpleTainted.c.o" "gcc" "CMakeFiles/example_2.dir/example_2/simpleTainted.c.o.d"
   )
 
 # Targets to which this target links.
