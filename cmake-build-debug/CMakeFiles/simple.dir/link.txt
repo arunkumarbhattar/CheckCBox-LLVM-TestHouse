@@ -1,1 +1,0 @@
-/home/arun/Desktop/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang -g -ldl -lstdc++ CMakeFiles/simple.dir/simple/simpleTainted.c.o -o simple  ../static_lib/libSBX_CON_LIB.a ../static_lib/libisc_lib_final.a -ldl 
