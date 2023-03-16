@@ -179,7 +179,7 @@ extern "C" void * my_dlsym(void * handle, const char * symbol) {
   return ptr;
 }
 
-extern "C" FLATTEN void * MYCDECL CUSTOM_CALLOC(size_t nelem, size_t elsize) 
+extern "C" FLATTEN void * MYCDECL hoard_calloc(size_t nelem, size_t elsize)
 {
   // Reject calls from dlsym so it uses its own internal buffer.
   if (in_dlsym) {
@@ -270,7 +270,7 @@ extern "C" size_t MYCDECL CUSTOM_GOODSIZE (size_t sz) {
   return objSize;
 }
 
-extern "C" void * MYCDECL CUSTOM_REALLOC (void * ptr, size_t sz)
+extern "C" void * MYCDECL hoard_realloc (void * ptr, size_t sz)
 {
 #if HL_USE_XXREALLOC
   void* buf = xxrealloc(ptr, sz);
@@ -323,7 +323,7 @@ extern "C" void * MYCDECL CUSTOM_REALLOCARRAY (void * ptr, size_t sz1, size_t sz
     errno = ENOMEM;
     return nullptr;
   }
-  return CUSTOM_REALLOC(ptr, sz1 * sz2);
+  return hoard_realloc(ptr, sz1 * sz2);
 }
 
 #if defined(__linux)
@@ -521,7 +521,7 @@ extern "C" void * MYCDECL CUSTOM_PVALLOC (size_t sz)
 extern "C" void * MYCDECL CUSTOM_RECALLOC (void * p, size_t num, size_t sz)
 {
   auto n = num * sz;
-  void * ptr = CUSTOM_REALLOC (p, n);
+  void * ptr = hoard_realloc (p, n);
   if (ptr) {
     // Clear out the memory.
     memset (ptr, 0, n);

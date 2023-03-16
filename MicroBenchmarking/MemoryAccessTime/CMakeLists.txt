@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(MyProject)
+project(Microbenchmarks)
 
 set(CMAKE_C_COMPILER /home/supercharger/extraspace/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang)
 
