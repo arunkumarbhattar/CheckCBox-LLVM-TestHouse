@@ -1,5 +1,0 @@
-# ninja log v5
-0	281	1678937409851971447	CMakeFiles/access_hoard.dir/access.c.o	e3c513afd46c1f7b
-1	297	1678939969173284871	CMakeFiles/access_wasm.dir/access.c.o	5666c2ad44227858
-297	378	1678939969257285587	access_wasm	b50635232e747b3f
-1	65	1678939029866219721	access_hoard	4fb395ccb1e7348b

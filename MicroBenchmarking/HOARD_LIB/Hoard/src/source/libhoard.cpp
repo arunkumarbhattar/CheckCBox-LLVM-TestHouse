@@ -21,7 +21,7 @@
 
 #include <cstddef>
 #include <new>
-
+#include "MemoryProfiler.h"
 #include "VERSION.h"
 
 #define versionMessage "Using the Hoard memory allocator (http://www.hoard.org), version " HOARD_VERSION_STRING "\n"
@@ -35,7 +35,7 @@
 // linkage.  Otherwise, our versions here won't replace them.  It is
 // IMPERATIVE that this line appear before any files get included.
 
-#undef __GXX_WEAK__ 
+#undef __GXX_WEAK__
 
 #if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
@@ -69,19 +69,18 @@ volatile bool anyThreadCreated = false;
 
 
 /// Maintain a single instance of the main Hoard heap.
-namespace HL {
-    struct MmapChunk *MmapChunkRoot = NULL;
-    struct MmapChunk *Cache = NULL; //Optimize for loop in findNode
-}
+struct MmapChunk *MmapChunkRoot = NULL;
+struct MmapChunk* CoalescedMmapChunkRoot = NULL;
+struct MmapChunk *Cache = NULL; //Optimize for loop in findNode
 Hoard::HoardHeapType * getMainHoardHeap() {
-  // This function is C++ magic that ensures that the heap is
-  // initialized before its first use. First, allocate a static buffer
-  // to hold the heap.
-  static double thBuf[sizeof(Hoard::HoardHeapType) / sizeof(double) + 1];
+    // This function is C++ magic that ensures that the heap is
+    // initialized before its first use. First, allocate a static buffer
+    // to hold the heap.
+    static double thBuf[sizeof(Hoard::HoardHeapType) / sizeof(double) + 1];
 
-  // Now initialize the heap into that buffer.
-  static auto * th = new (thBuf) Hoard::HoardHeapType;
-  return th;
+    // Now initialize the heap into that buffer.
+    static auto * th = new (thBuf) Hoard::HoardHeapType;
+    return th;
 }
 
 TheCustomHeapType * getCustomHeap();
@@ -95,78 +94,73 @@ extern bool isCustomHeapInitialized();
 #include "Heap-Layers/wrappers/generic-memalign.cpp"
 
 extern "C" {
-    bool xxisPointerinHeap(void * ptr) {
-        if(HL::MmapWrapper::findNode(HL::MmapChunkRoot, ptr) != NULL) {
-            return true;
-        }
-        return false;
+bool xxisPointerinHeap(void * ptr) {
+    if(findNode(CoalescedMmapChunkRoot, ptr) != NULL) {
+        return true;
     }
+    return false;
+}
 #if defined(__GNUG__)
-  void * xxmalloc (size_t sz)
+void * xxmalloc (size_t sz)
 #else
-  void * __attribute__((flatten)) xxmalloc (size_t sz) __attribute__((alloc_size(1))) __attribute((malloc))
+void * __attribute__((flatten)) xxmalloc (size_t sz) __attribute__((alloc_size(1))) __attribute((malloc))
 #endif
-  {
+{
     if (isCustomHeapInitialized()) {
-      void * ptr = getCustomHeap()->malloc (sz);
-      if (ptr == nullptr) {
-    	fprintf(stderr, "INTERNAL FAILURE.\n");
-	    abort();
-      }
-      return ptr;
+        void * ptr = getCustomHeap()->malloc (sz);
+        if (ptr == nullptr) {
+            fprintf(stderr, "INTERNAL FAILURE.\n");
+            abort();
+        }
+        return ptr;
     }
     // We still haven't initialized the heap. Satisfy this memory
     // request from the local buffer.
     void * ptr = initBufferPtr;
     initBufferPtr += sz;
     if (initBufferPtr > initBuffer + MAX_LOCAL_BUFFER_SIZE) {
-      abort();
+        abort();
     }
     {
-      static bool initialized = false;
-      if (!initialized) {
-	initialized = true;
+        static bool initialized = false;
+        if (!initialized) {
+            initialized = true;
 #if !defined(_WIN32)
-	/* fprintf(stderr, versionMessage); */
+            /* fprintf(stderr, versionMessage); */
 #endif
-      }
+        }
     }
     return ptr;
-  }
+}
 
 #if defined(__GNUG__)
-  void xxfree (void * ptr)
+void xxfree (void * ptr)
 #else
-  void xxfree (void * ptr)
+void xxfree (void * ptr)
 #endif
-  {
+{
     getCustomHeap()->free (ptr);
-  }
+}
 
-  bool xxIsHoardPtrValid(void * ptr) {
-    //getCustomHeap()->isValidHoard(ptr);
-    return true;
-  }
- 
 #if defined(__GNUG__)
-  void * xxmemalign (size_t alignment, size_t sz) {
+void * xxmemalign (size_t alignment, size_t sz) {
 #else
-  void * xxmemalign (size_t alignment, size_t sz) {
+void * xxmemalign (size_t alignment, size_t sz) {
 #endif
     return generic_xxmemalign(alignment, sz);
-  }
-    
-  size_t xxmalloc_usable_size (void * ptr) {
+}
+
+size_t xxmalloc_usable_size (void * ptr) {
     return getCustomHeap()->getSize (ptr);
-  }
+}
 
-  void xxmalloc_lock() {
+void xxmalloc_lock() {
     // Undefined for Hoard.
-  }
+}
 
-  void xxmalloc_unlock() {
+void xxmalloc_unlock() {
     // Undefined for Hoard.
-  }
+}
 
 } // namespace Hoard
 

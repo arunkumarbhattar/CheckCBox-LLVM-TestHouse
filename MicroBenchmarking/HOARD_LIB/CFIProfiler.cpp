@@ -12,6 +12,7 @@ list<void*> CallbackFunctions[HASH_SIZE];
 
 set<void*>TaintedFunctions;
 
+
 extern "C" void registerCallback(void* callbackFunc)
 {
  	printf("::::::::registerCallback on %p", callbackFunc);

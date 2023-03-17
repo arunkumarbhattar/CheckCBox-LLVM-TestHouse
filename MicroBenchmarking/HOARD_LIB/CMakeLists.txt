@@ -18,3 +18,12 @@ set_target_properties(profile PROPERTIES OUTPUT_NAME "profile")
 
 # Set the library's include directories (if any)
 target_include_directories(profile PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Add the Memory library target
+add_library(memprofile STATIC MemoryProfiler.cpp)
+
+# Specify the output name of the library
+set_target_properties(memprofile PROPERTIES OUTPUT_NAME "memprofile")
+
+# Set the library's include directories (if any)
+target_include_directories(memprofile PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
