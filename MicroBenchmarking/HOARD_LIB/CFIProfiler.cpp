@@ -8,9 +8,9 @@ using namespace std;
 
 const int HASH_SIZE = 100;
 
-list<void*> CallbackFunctions[HASH_SIZE]; 
+static list<void*> CallbackFunctions[HASH_SIZE];
 
-set<void*>TaintedFunctions;
+static  set<void*>TaintedFunctions;
 
 
 extern "C" void registerCallback(void* callbackFunc)

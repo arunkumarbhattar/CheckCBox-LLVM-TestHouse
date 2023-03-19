@@ -27,9 +27,9 @@ double ReadingAndWritingToTaintedPtr100ktimes()
     clock_t start, end;
     double cpu_time_used;
     start = clock();
-#ifdef wasmsbx
+#ifdef WASM_SBX
     _TPtr<int> pVal = (_TPtr<int>)t_malloc(sizeof(int));
-#elif hoardsbx
+#elif HEAP_SBX
     _TPtr<int> pVal = (_TPtr<int>)hoard_malloc(sizeof(int));
 #endif
     *pVal = 0;

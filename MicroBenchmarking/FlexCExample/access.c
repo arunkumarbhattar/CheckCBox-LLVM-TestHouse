@@ -1,55 +1,57 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <stdlib_tainted.h>
-#include <checkcbox_extensions.h>
 #include "access.h"
 
-double ReadingAndWritingToCheckedPtr100ktimes()
+_Tainted _TPtr<int> SimpleTaintedFunction(_TPtr<int> a, _TPtr<int> b, 
+		_TPtr<int> (*func_1)(_TPtr<int>a, _TPtr<int>b),
+		_TPtr<int> (*func_2)(_TPtr<int>a, _TPtr<int>b),
+		_TPtr<int> (*func_3)(_TPtr<int>a, _TPtr<int>c))
 {
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();
-    int* pVal = (int*)malloc(sizeof(int));
-    *pVal = 0;
-    for (int i = 0; i < 100000; i++)
-    {
-        *pVal += 1;
-    }
-    end = clock();
-    cpu_time_used = ((double) (end-start)) / CLOCKS_PER_SEC;
-    return cpu_time_used;
-
+	if (*a == *b)
+		return func_1(a, b);
+	else if (*a > *b)
+		return func_2(a, b);
+	else
+		return func_3(a, b);
 
 }
-double ReadingAndWritingToTaintedPtr100ktimes()
+
+_Callback _TPtr<int> callbackFunction(_TPtr<int> a, _TPtr<int> b)
 {
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();
-#ifdef wasmsbx
-    _TPtr<int> pVal = (_TPtr<int>)t_malloc(sizeof(int));
-#elif hoardsbx
-    _TPtr<int> pVal = (_TPtr<int>)hoard_malloc(sizeof(int));
-#endif
-    *pVal = 0;
-    for (int i = 0; i < 100000; i++)
-    {
-        *pVal = *pVal + 1;
-    }
-    end = clock();
-    cpu_time_used = ((double) (end-start)) / CLOCKS_PER_SEC;
-    return cpu_time_used;
+	printf("Callback Called\n");
+	return a;
 }
+
+
+_TPtr<int> checkedFunction(_TPtr<int> a, _TPtr<int> b)
+{
+	printf("Checked Function called\n");
+	return b;
+}
+
+_Tainted _TPtr<int> taintedFunction(_TPtr<int> a, _TPtr<int> b)
+{
+	printf("Tainted Function called\n");
+}
+
+
 int main() {
 
-    for (int i = 0 ; i < 10; i++)
-    {
-        printf("******************Iteration: %d **************************\n", i+1);
-        printf("ReadingAndWritingToCheckedPtr100ktimes takes %f seconds\n", ReadingAndWritingToCheckedPtr100ktimes());
-        printf("ReadingAndWritingToTaintedPtr100ktimes takes %f seconds\n", ReadingAndWritingToTaintedPtr100ktimes());
-        printf("**********************************************************\n");
-    }
+    _TPtr<int> a = hoard_malloc<int>(sizeof(int));
+    _TPtr<int> b = hoard_malloc<int>(sizeof(int));
+
+    //below is legal
+    *a = 1;
+    *b = 1;
+    SimpleTaintedFunction(a, b, taintedFunction, checkedFunction, callbackFunction);
+
+    registerCallback(callbackFunction);
+    *a = 10;
+    *b = 20;
+    SimpleTaintedFunction(a, b, taintedFunction, checkedFunction, callbackFunction);
+    unregisterCallback(callbackFunction);
+    //expect crash here 
+    *a = 20;
+    *b = 10;
+    SimpleTaintedFunction(a, b, taintedFunction, checkedFunction, callbackFunction);
 
     return 0;
 

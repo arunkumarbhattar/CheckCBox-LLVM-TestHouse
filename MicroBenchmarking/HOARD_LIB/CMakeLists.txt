@@ -5,14 +5,15 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Compile with Clang
-set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_CXX_COMPILER "g++")
 
 # Set compiler flags
 set(CMAKE_CXX_FLAGS "-g -static")
 
 # Add the CFIProfiler library target
 add_library(profile STATIC CFIProfiler.cpp)
-
+#set target compiler flags
+target_compile_options(profile PUBLIC "-fPIC")
 # Specify the output name of the library
 set_target_properties(profile PROPERTIES OUTPUT_NAME "profile")
 
