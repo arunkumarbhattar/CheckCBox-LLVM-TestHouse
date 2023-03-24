@@ -14,7 +14,7 @@ _Tainted _TPtr<int> SimpleTaintedFunction(_TPtr<int> a, _TPtr<int> b,
 
 }
 
-_Callback _TPtr<int> callbackFunction(_TPtr<int> a, _TPtr<int> b)
+_Tainted _TPtr<int> callbackFunction(_TPtr<int> a, _TPtr<int> b)
 {
 	printf("Callback Called\n");
 	return a;

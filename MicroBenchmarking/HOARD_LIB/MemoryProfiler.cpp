@@ -26,13 +26,6 @@
     }
     return root;
 }
-extern "C" void CacheUpdateandCheck(void* Address)
-{
-    MmapChunk* temp = findNode(CoalescedMmapChunkRoot, Address);
-    assert(temp != nullptr && "Tainted Pointer Illegal");
-    lowerbound = (long)(temp->ChunkStartingAddress);
-    upperbound = (long)temp->ChunkStartingAddress + (long)temp->ChunkSize;
-}
 MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
     //This is the most critical function
     //It is called for every malloc and free
@@ -181,7 +174,7 @@ void printTree(MmapChunk* node, int level) {
         for (int i = 0; i < level; i++) {
             cout << "   ";
         }
-        //cout << "{ " << node->ChunkStartingAddress <<", "<< (void*)((size_t)node->ChunkStartingAddress + (size_t)node->ChunkSize) <<" }"<< endl;
+        cout << "{ " << node->ChunkStartingAddress <<", "<< (void*)((size_t)node->ChunkStartingAddress + (size_t)node->ChunkSize) <<" }"<< endl;
         printTree(node->left, level + 1);
     }
 }
@@ -275,4 +268,19 @@ void deleteTree(MmapChunk* node) {
     deleteTree(node->left);
     deleteTree(node->right);
     free(node);
+}
+
+extern "C" void CacheUpdateandCheck(void* Address)
+{
+    MmapChunk* temp = findNode(CoalescedMmapChunkRoot, Address);
+    if (temp == NULL) {
+        temp = findNode(MmapChunkRoot, Address);
+    }
+//cout<<"CACHE MISS"<<endl;
+//    printTree(CoalescedMmapChunkRoot, 0);
+    lowerbound_2 = lowerbound_1;
+    upperbound_2 = upperbound_1;
+    assert(temp != nullptr && "Tainted Pointer Illegal");
+    lowerbound_1 = (long)(temp->ChunkStartingAddress);
+    upperbound_1 = (long)temp->ChunkStartingAddress + (long)temp->ChunkSize;
 }

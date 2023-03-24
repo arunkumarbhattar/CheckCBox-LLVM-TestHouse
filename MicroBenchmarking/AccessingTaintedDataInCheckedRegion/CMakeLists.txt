@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project(MyProject)
 
-set(CMAKE_C_COMPILER /home/supercharger/extraspace/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang)
-set(CMAKE_CXX_COMPILER /home/supercharger/extraspace/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang)
+set(CMAKE_C_COMPILER /home/arun/Desktop/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang)
+set(CMAKE_CXX_COMPILER /home/arun/Desktop/CheckCBox_Compiler/llvm/cmake-build-debug/bin/clang)
 
 add_executable(access_wasm access.c)
 target_compile_options(access_wasm PRIVATE -fwasmsbx -g -DWASM_SBX)
@@ -18,3 +18,7 @@ target_link_libraries(access_hoard
         ${CMAKE_SOURCE_DIR}/../HOARD_LIB/libhoard.so
         ${CMAKE_SOURCE_DIR}/../HOARD_LIB/libprofile.a
        )
+
+add_executable(benchmark benchmarkO2.c benchmarkO2.h)
+target_compile_options(benchmark PRIVATE -g -O2)
+target_link_options(benchmark PRIVATE )
