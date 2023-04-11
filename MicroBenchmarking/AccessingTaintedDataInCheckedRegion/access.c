@@ -14,7 +14,7 @@ double ReadingAndWritingToCheckedPtr100ktimes()
     *pVal = 0;
     for (int i = 0; i < 100000; i++)
     {
-        *pVal += 1;
+        *pVal += i;
     }
     end = clock();
     cpu_time_used = ((double) (end-start)) / CLOCKS_PER_SEC;
@@ -35,7 +35,7 @@ double ReadingAndWritingToTaintedPtr100ktimes()
     *pVal = 0;
     for (int i = 0; i < 100000; i++)
     {
-        *pVal = *pVal + 1;
+        *pVal = *pVal + i;
     }
     end = clock();
     cpu_time_used = ((double) (end-start)) / CLOCKS_PER_SEC;

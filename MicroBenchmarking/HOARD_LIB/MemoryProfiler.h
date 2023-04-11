@@ -35,8 +35,9 @@ extern MmapChunk* Cache;
 extern long lowerbound_1;
 extern long upperbound_1;
 extern long lowerbound_2;
-extern long upperbound_2
-;
+extern long upperbound_2;
+
+
 extern "C" void CacheUpdateandCheck(void* Address);
  MmapChunk* createNode(void* MmapAddress, size_t MmapSize);
  MmapChunk* insertNode(MmapChunk* root, void* MmapAddress, size_t MmapSize);

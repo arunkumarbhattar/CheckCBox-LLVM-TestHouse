@@ -181,15 +181,7 @@ namespace HL {
                     perror("MmapWrapper");
                     return nullptr;
                 } else {
-                    //update the MmapChunk Structure tree with the ptr address
-//                    cout<<"+++++++++INSERTED a node and the tree is"<<endl;
                     MmapChunkRoot = insertNode(MmapChunkRoot, ptr, sz);
-         //           printTree(MmapChunkRoot,0);
-//                    cout<<"end of tree"<<endl;
-//                    cout<<"COALESCE THE TREE"<<endl;
-                    CoalescedMmapChunkRoot = reduceTree(cloneBinaryTree(MmapChunkRoot));
-          //          printTree(CoalescedMmapChunkRoot,0);
-//                    cout<<"end of tree"<<endl;
                     return ptr;
                 }
             }
@@ -198,16 +190,7 @@ namespace HL {
                 // Round up the size to a page-sized value.
                 sz = Size * ((sz + Size - 1) / Size);
                 munmap ((caddr_t) ptr, sz);
-//                cout<<"-------REMOVED " << sz <<" Bytes from "<< ptr <<" a node and the tree is"<<endl;
-                //remove the ptr address from the MmapChunk Structure tree
                 reduceNodeSizeOrRemove(&MmapChunkRoot, ptr, sz);
- //               printTree(MmapChunkRoot, 0);
-//                cout<<"end of tree"<<endl;
-//                cout<<"COALESCE THE TREE"<<endl;
-                deleteTree(CoalescedMmapChunkRoot);
-                CoalescedMmapChunkRoot = reduceTree(cloneBinaryTree(MmapChunkRoot));
-               // printTree(CoalescedMmapChunkRoot,0);
-//                cout<<"end of tree"<<endl;
             }
 
 #endif

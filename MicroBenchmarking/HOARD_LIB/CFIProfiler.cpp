@@ -10,7 +10,7 @@ const int HASH_SIZE = 100;
 
 static list<void*> CallbackFunctions[HASH_SIZE];
 
-static  set<void*>TaintedFunctions;
+static set<void*>TaintedFunctions;
 
 
 extern "C" void registerCallback(void* callbackFunc)

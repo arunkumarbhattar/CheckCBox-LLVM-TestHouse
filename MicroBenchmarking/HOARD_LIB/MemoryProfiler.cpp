@@ -13,12 +13,33 @@
     return NewChunk;
 }
 
+MmapChunk* mergeNodes(MmapChunk* root, void* MmapAddress, size_t MmapSize) {
+    if (root == nullptr) {
+        return nullptr;
+    }
+    if ((size_t)MmapAddress + MmapSize == (size_t)root->ChunkStartingAddress) {
+        root->ChunkStartingAddress = MmapAddress;
+        root->ChunkSize += MmapSize;
+        return root;
+    } else if ((size_t)MmapAddress == (size_t)root->ChunkStartingAddress + root->ChunkSize) {
+        root->ChunkSize += MmapSize;
+        return root;
+    }
+    return nullptr;
+}
+
  MmapChunk* insertNode(MmapChunk* root, void* MmapAddress, size_t MmapSize) {
     if (root == nullptr) {
         root = createNode(MmapAddress, MmapSize);
         return root;
     }
-    if (MmapAddress < (root->ChunkStartingAddress)) {
+
+     MmapChunk* mergedNode = mergeNodes(root, MmapAddress, MmapSize);
+     if (mergedNode) {
+         return root;
+     }
+
+     if (MmapAddress < (root->ChunkStartingAddress)) {
         root->left = insertNode(root->left, MmapAddress, MmapSize);
     }
     else {
@@ -26,17 +47,18 @@
     }
     return root;
 }
+
 MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
-    //This is the most critical function
-    //It is called for every malloc and free
-    //The MmapAddress necessarily need not be the same as the root->ChunkStartingAddress
-    //It can be anywhere in the range of the chunk starting address and the chunk ending address (root->ChunkStartingAddress + root->ChunkSize)
+    // This is the most critical function
+    // It is called for every malloc and free
+    // The MmapAddress necessarily need not be the same as the root->ChunkStartingAddress
+    // It can be anywhere in the range of the chunk starting address and the chunk ending address (root->ChunkStartingAddress + root->ChunkSize)
     if (root == nullptr) {
         return nullptr;
     }
-    //Check for Cache Hit (This is the most common case)
+    // Check for Cache Hit (This is the most common case)
     if (Cache != nullptr) {
-        if ((MmapAddress > Cache->ChunkStartingAddress)
+        if ((MmapAddress >= Cache->ChunkStartingAddress)
             && ((size_t)MmapAddress < ((size_t)Cache->ChunkStartingAddress + (size_t)Cache->ChunkSize))) {
             //cout << "CACHE HIT "<< endl;
             return Cache;
@@ -44,9 +66,9 @@ MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
     }
 
     if (MmapAddress == (root->ChunkStartingAddress)) {
-        //This is pretty obvious
-        //If this is a Cache Miss, we will have to update the cache
-        //Check if this is a Cache Miss
+        // This is pretty obvious
+        // If this is a Cache Miss, we will have to update the cache
+        // Check if this is a Cache Miss
         if (Cache != root) {
             //cout << "CACHE MISS "<< endl;
             Cache = root;
@@ -54,11 +76,10 @@ MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
         return root;
     }
 
-
-    else if ((MmapAddress > root->ChunkStartingAddress)
+    else if ((MmapAddress >= root->ChunkStartingAddress)
              && ((size_t)MmapAddress < ((size_t)root->ChunkStartingAddress + (size_t)root->ChunkSize))) {
-        //If this is a Cache Miss, we will have to update the cache
-        //Check if this is a Cache Miss
+        // If this is a Cache Miss, we will have to update the cache
+        // Check if this is a Cache Miss
         if (Cache != root) {
             //cout << "CACHE MISS "<< endl;
             Cache = root;
@@ -66,7 +87,7 @@ MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
         return root;
     }
 
-    //else we need to recurse the entire tree look for the node
+    // else we need to recurse the entire tree look for the node
     if (MmapAddress < (root->ChunkStartingAddress)) {
         return findNode(root->left, MmapAddress);
     }
@@ -102,8 +123,17 @@ MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
     }
     return findMin(root->left);
 }
+MmapChunk* splitNode(MmapChunk* root, void* MmapAddress, size_t MmapSize) {
+    size_t newChunkSize = (size_t)root->ChunkStartingAddress + root->ChunkSize - (size_t)MmapAddress;
+    void* newChunkAddress = (void*)((size_t)MmapAddress + MmapSize);
 
- MmapChunk* RecursivereduceNodeSzOrDelete(MmapChunk* root, void* MmapAddress, size_t MmapSize) {
+    root->ChunkSize = (size_t)MmapAddress - (size_t)root->ChunkStartingAddress;
+    root->right = insertNode(root->right, newChunkAddress, newChunkSize);
+
+    return root;
+}
+
+MmapChunk* RecursivereduceNodeSzOrDelete(MmapChunk* root, void* MmapAddress, size_t MmapSize) {
     if (root == nullptr) {
         return nullptr;
     }
@@ -115,28 +145,10 @@ MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
         root->right = RecursivereduceNodeSzOrDelete(root->right, MmapAddress, MmapSize);
     }
     else {
-        //sometimes you may free from between. In that case, you gotta split the node into two
-        //            if ((size_t)MmapAddress > (size_t)(root->ChunkStartingAddress)
-        //            && ((size_t)MmapAddress < ((size_t)root->ChunkStartingAddress + (size_t)root->ChunkSize))) {
-        //                //split the node
-        //                root->ChunkSize -= MmapSize; //this should match with the freed size
-        //                //insert the second chunk
-        //                auto root_ =  insertNode(root, (void*)((size_t)MmapAddress + MmapSize), (size_t)(((size_t)MmapAddress + MmapSize) -
-        //                ((size_t)root->ChunkStartingAddress + (size_t)root->ChunkSize) - MmapSize));
-        //                return root_;
-        //            }
-
-        /*
-         * Our observation above was wrong.
-         * Even though you may need to free from between, the requested sz for deletion is
-         * such that the second half of the chunk is unmapped (cut off).
-         * Therfore, we can just reduce the size of the chunk and return the same node
-         *
-         */
         if ((size_t)MmapAddress > (size_t)(root->ChunkStartingAddress)
             && ((size_t)MmapAddress < ((size_t)root->ChunkStartingAddress + (size_t)root->ChunkSize))) {
-            //split the node and shave off the second half
-            root->ChunkSize -= MmapSize; //this should match with the freed size
+            // Split the node and shave off the second half
+            root = splitNode(root, MmapAddress, MmapSize);
             return root;
         }
         if (root->ChunkSize - MmapSize > 0)
@@ -167,18 +179,6 @@ MmapChunk* findNode(MmapChunk* root, void* MmapAddress) {
     return root;
 }
 
-//print the tree
-void printTree(MmapChunk* node, int level) {
-    if (node != nullptr) {
-        printTree(node->right, level + 1);
-        for (int i = 0; i < level; i++) {
-            cout << "   ";
-        }
-        cout << "{ " << node->ChunkStartingAddress <<", "<< (void*)((size_t)node->ChunkStartingAddress + (size_t)node->ChunkSize) <<" }"<< endl;
-        printTree(node->left, level + 1);
-    }
-}
-
 //write a function to remove a node from the tree
 void reduceNodeSizeOrRemove(MmapChunk** root, void* MmapAddress, size_t MmapSize) {
     if (root == nullptr) {
@@ -193,6 +193,8 @@ void reduceNodeSizeOrRemove(MmapChunk** root, void* MmapAddress, size_t MmapSize
     }
     else if (node->left == nullptr) {
         MmapChunk* parent = findParent(*root, MmapAddress);
+        if (!parent)
+            return;
         if (parent->left == node) {
             parent->left = node->right;
         }
@@ -206,6 +208,8 @@ void reduceNodeSizeOrRemove(MmapChunk** root, void* MmapAddress, size_t MmapSize
     }
     else if (node->right == nullptr) {
         MmapChunk* parent = findParent(*root, MmapAddress);
+        if (!parent)
+            return;
         if (parent->left == node) {
             parent->left = node->left;
         }
@@ -219,9 +223,23 @@ void reduceNodeSizeOrRemove(MmapChunk** root, void* MmapAddress, size_t MmapSize
     }
     else {
         MmapChunk* temp = findMin(node->right);
+        if (!temp)
+            return;
         node->ChunkStartingAddress = temp->ChunkStartingAddress;
         node->right = RecursivereduceNodeSzOrDelete(node->right, temp->ChunkStartingAddress, MmapSize);
     }
+}
+
+extern "C" void CacheUpdateandCheck(void* Address)
+{
+    MmapChunk* temp = findNode(MmapChunkRoot, Address);
+
+    assert(temp != nullptr && "Tainted Pointer Illegal");
+    lowerbound_2 = lowerbound_1;
+    upperbound_2 = upperbound_1;
+
+    lowerbound_1 = (long)(temp->ChunkStartingAddress);
+    upperbound_1 = (long)temp->ChunkStartingAddress + (long)temp->ChunkSize;
 }
 
 MmapChunk* reduceTree(MmapChunk* root) {
@@ -270,17 +288,14 @@ void deleteTree(MmapChunk* node) {
     free(node);
 }
 
-extern "C" void CacheUpdateandCheck(void* Address)
-{
-    MmapChunk* temp = findNode(CoalescedMmapChunkRoot, Address);
-    if (temp == NULL) {
-        temp = findNode(MmapChunkRoot, Address);
+//print the tree
+void printTree(MmapChunk* node, int level) {
+    if (node != nullptr) {
+        printTree(node->right, level + 1);
+        for (int i = 0; i < level; i++) {
+            cout << "   ";
+        }
+        cout << "{ " << node->ChunkStartingAddress <<", "<< (void*)((size_t)node->ChunkStartingAddress + (size_t)node->ChunkSize) <<" }"<< endl;
+        printTree(node->left, level + 1);
     }
-//cout<<"CACHE MISS"<<endl;
-//    printTree(CoalescedMmapChunkRoot, 0);
-    lowerbound_2 = lowerbound_1;
-    upperbound_2 = upperbound_1;
-    assert(temp != nullptr && "Tainted Pointer Illegal");
-    lowerbound_1 = (long)(temp->ChunkStartingAddress);
-    upperbound_1 = (long)temp->ChunkStartingAddress + (long)temp->ChunkSize;
 }

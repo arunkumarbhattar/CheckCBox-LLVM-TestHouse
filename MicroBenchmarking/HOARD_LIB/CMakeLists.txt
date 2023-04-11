@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_COMPILER "g++")
 
 # Set compiler flags
-set(CMAKE_CXX_FLAGS "-g -static")
+set(CMAKE_CXX_FLAGS "-O2 -static")
 
 # Add the CFIProfiler library target
 add_library(profile STATIC CFIProfiler.cpp)

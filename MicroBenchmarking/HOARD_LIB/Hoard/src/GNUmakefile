@@ -1,8 +1,8 @@
 # Commands to compile Hoard for various targets.
 # Run make (with no arguments) to see the complete target list.
 
-CPPFLAGS = -std=c++14 -flto -g -DNDEBUG -ffast-math -fno-builtin-malloc -Wall -Wextra -Wshadow -Wconversion -Wuninitialized # -DHL_NO_MALLOC_SIZE_CHECKS=1
-CPPFLAGS_NOLTO = -std=c++14 -g -DNDEBUG -ffast-math -fno-builtin-malloc -Wall -Wextra -Wshadow -Wconversion -Wuninitialized # -DHL_NO_MALLOC_SIZE_CHECKS=1
+CPPFLAGS = -std=c++14 -flto -O3 -DNDEBUG -ffast-math -fno-builtin-malloc -Wall -Wextra -Wshadow -Wconversion -Wuninitialized # -DHL_NO_MALLOC_SIZE_CHECKS=1
+CPPFLAGS_NOLTO = -std=c++14 -O3 -DNDEBUG -ffast-math -fno-builtin-malloc -Wall -Wextra -Wshadow -Wconversion -Wuninitialized # -DHL_NO_MALLOC_SIZE_CHECKS=1
 #CPPFLAGS = -std=c++14 -g -O0 -ffast-math -fno-builtin-malloc -Wall -Wextra -Wshadow -Wconversion -Wuninitialized
 CXX = g++
 
@@ -123,7 +123,7 @@ LINUX_GCC_x86_COMPILE = $(CXX) -m32 $(CPPFLAGS) -I/usr/include/nptl -ffast-math 
 
 
 
-LINUX_GCC_x86_64_COMPILE = $(CXX) $(CPPFLAGS) -g -W -Wconversion -Wall -I../../ -I/usr/include/nptl -fno-builtin-malloc -pipe -fPIC -DNDEBUG  $(INCLUDES) -D_REENTRANT=1 -shared $(PROFILER_SRC) $(GNU_SRC) -Bsymbolic -o ../../libhoard.so -ldl -lpthread
+LINUX_GCC_x86_64_COMPILE = $(CXX) $(CPPFLAGS) -W -Wconversion -Wall -I../../ -I/usr/include/nptl -fno-builtin-malloc -pipe -fPIC -DNDEBUG  $(INCLUDES) -D_REENTRANT=1 -shared $(PROFILER_SRC) $(GNU_SRC) -Bsymbolic -o ../../libhoard.so -ldl -lpthread
 
 
 
